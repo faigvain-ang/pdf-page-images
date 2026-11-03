@@ -16,7 +16,8 @@
     "about": "<p>Page Image Notes and PDF Page Images are maintained under <strong>faigvain-ang</strong>, by the same team developing related Eqvero, KolmoPDF and KomoPDF ecosystem tools. This is an associated educational project, not an independent review.</p><p><a href=\"https://komopdf.com/\">KomoPDF</a> is the related product for local-first PDF editing, annotation and export. This separate open-source CLI offers only page-image rendering; it is not its editor, OCR engine or desktop application. It makes no promise about editing text or retaining digital-signature validity.</p>",
     "notes_label": "Field notes",
     "source_label": "Get the code on GitHub →",
-    "about_description": "Maintenance, product relationships and data handling at Page Image Notes."
+    "about_description": "Maintenance, product relationships and data handling at Page Image Notes.",
+    "seo_title": "PDF to PNG/JPEG Page Export"
   },
   "es": {
     "eyebrow": "03 / MESA DE EXPORTACIÓN DE PÁGINAS",
@@ -29,6 +30,8 @@
     "about": "<p>Page Image Notes y PDF Page Images se mantienen bajo <strong>faigvain-ang</strong>, por el mismo equipo que desarrolla herramientas relacionadas con Eqvero, KolmoPDF y KomoPDF. Es un proyecto educativo asociado, no una reseña independiente.</p><p><a href=\"https://komopdf.com/\">KomoPDF</a> es el producto relacionado para editar, anotar y exportar PDF con prioridad local. Este CLI abierto es independiente y solo renderiza páginas: no es su editor, motor OCR ni aplicación de escritorio. No promete editar texto ni conservar la validez de firmas digitales.</p>",
     "notes_label": "Notas prácticas",
     "source_label": "Código en GitHub →",
-    "about_description": "Mantenimiento, relación con productos y tratamiento de datos en Page Image Notes."
-  }
+    "about_description": "Mantenimiento, relación con productos y tratamiento de datos en Page Image Notes.",
+    "seo_title": "Exportar páginas PDF a PNG o JPEG"
+  },
+  "root_seo_title": "PDF to PNG/JPEG / PDF a PNG y JPEG"
 }
