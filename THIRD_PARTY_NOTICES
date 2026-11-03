@@ -1,0 +1,60 @@
+Third-party dependencies of PDF Page Images
+==========================================
+
+This source repository does not vendor dependency code, binary wheels, fonts,
+or PDFium libraries. Dependencies are installed separately from requirements.txt.
+The repository's MIT license does not replace any dependency license.
+
+pypdfium2 4.30.0
+----------------
+Source: https://github.com/pypdfium2-team/pypdfium2
+Copyright: pypdfium2 contributors, including geisserml; generated bindings also
+credit ctypesgen developers. Code is available under Apache-2.0 OR BSD-3-Clause.
+Upstream documentation may be covered by CC-BY-4.0.
+
+Its binary wheels include PDFium and components with additional notices. The
+installed wheel carries Apache-2.0.txt, BSD-3-Clause.txt, CC-BY-4.0.txt,
+LicenseRef-PdfiumThirdParty.txt, and dep5-wheel in
+pypdfium2-4.30.0.dist-info/ under the environment's site-packages directory.
+The PDFium notices include copyrights for PDFium developers, upstream component
+authors, and pdfium-binaries contributors. Preserve those notices and applicable
+license texts when redistributing dependency binaries or a bundled application.
+
+Pillow 11.1.0
+-------------
+Source: https://github.com/python-pillow/Pillow
+License: MIT-CMU (PIL/Pillow), with separate licenses for bundled binary components.
+The installed pillow-11.1.0.dist-info/LICENSE contains the complete license texts
+and bundled-component notices for that wheel.
+
+PIL is Copyright (c) 1997-2011 by Secret Labs AB and
+Copyright (c) 1995-2011 by Fredrik Lundh and contributors.
+Pillow is Copyright (c) 2010 by Jeffrey A. Clark and contributors.
+
+PIL/Pillow license terms:
+
+By obtaining, using, and/or copying this software and/or its associated
+documentation, you agree that you have read, understood, and will comply
+with the following terms and conditions:
+
+Permission to use, copy, modify and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appears in all copies, and that
+both that copyright notice and this permission notice appear in supporting
+documentation, and that the name of Secret Labs AB or the author not be
+used in advertising or publicity pertaining to distribution of the software
+without specific, written prior permission.
+
+SECRET LABS AB AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
+IN NO EVENT SHALL SECRET LABS AB OR THE AUTHOR BE LIABLE FOR ANY SPECIAL,
+INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+Synthetic PDF fixture
+---------------------
+examples/statement.pdf and examples/make_sample.py are original MIT-licensed
+fixtures for this project, not customer files. The PDF references the standard
+Helvetica base font by name and does not embed or redistribute a font file.

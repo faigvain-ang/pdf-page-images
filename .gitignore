@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+tmp/
+out/
+jpg-out/
+all-out/
+another-out/
+.DS_Store
+Thumbs.db

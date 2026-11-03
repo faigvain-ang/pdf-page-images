@@ -1,0 +1,34 @@
+{
+  "repo": "pdf-page-images",
+  "hostname": "pdf.findfindata.com",
+  "brand": "Page Image Notes",
+  "theme": "images",
+  "mark": "▰",
+  "color": "#164ddd",
+  "en": {
+    "eyebrow": "03 / PAGE EXPORT DESK",
+    "title": "The page you need. The pixels you expect.",
+    "intro": "A local PDF-to-image CLI for selected pages, plus clear notes on DPI, file numbering and what a raster copy leaves behind.",
+    "description": "Export selected PDF pages locally to PNG or JPEG, with reproducible DPI and pixel-size examples.",
+    "panel_title": "Render locally, inspect directly",
+    "panel_intro": "Python 3.11+ with pinned PDFium and Pillow dependencies. No upload, OCR or account.",
+    "panel_body": "<pre><code>python pdf_page_images.py examples/statement.pdf --pages 1,3 --dpi 144 --format png --output-dir out</code></pre><p><a href=\"https://github.com/faigvain-ang/pdf-page-images\">Get source, installation instructions and the synthetic PDF</a>.</p>",
+    "about": "<p>Page Image Notes and PDF Page Images are maintained under <strong>faigvain-ang</strong>, by the same team developing related Eqvero, KolmoPDF and KomoPDF ecosystem tools. This is an associated educational project, not an independent review.</p><p><a href=\"https://komopdf.com/\">KomoPDF</a> is the related product for local-first PDF editing, annotation and export. This separate open-source CLI offers only page-image rendering; it is not its editor, OCR engine or desktop application. It makes no promise about editing text or retaining digital-signature validity.</p>",
+    "notes_label": "Field notes",
+    "source_label": "Get the code on GitHub →",
+    "about_description": "Maintenance, product relationships and data handling at Page Image Notes."
+  },
+  "es": {
+    "eyebrow": "03 / MESA DE EXPORTACIÓN DE PÁGINAS",
+    "title": "La página necesaria. Los píxeles previstos.",
+    "intro": "Un CLI local de PDF a imagen para páginas seleccionadas, con notas claras sobre PPP, numeración y lo que se pierde al rasterizar.",
+    "description": "Exporte páginas de PDF a PNG o JPEG en local, con ejemplos reproducibles de PPP y dimensiones en píxeles.",
+    "panel_title": "Renderice en local. Revise el resultado.",
+    "panel_intro": "Python 3.11+ con versiones fijadas de PDFium y Pillow. Sin carga de archivos, OCR ni cuentas.",
+    "panel_body": "<pre><code>python pdf_page_images.py examples/statement.pdf --pages 1,3 --dpi 144 --format png --output-dir out</code></pre><p><a href=\"https://github.com/faigvain-ang/pdf-page-images\">Código, instrucciones de instalación y PDF sintético</a>.</p>",
+    "about": "<p>Page Image Notes y PDF Page Images se mantienen bajo <strong>faigvain-ang</strong>, por el mismo equipo que desarrolla herramientas relacionadas con Eqvero, KolmoPDF y KomoPDF. Es un proyecto educativo asociado, no una reseña independiente.</p><p><a href=\"https://komopdf.com/\">KomoPDF</a> es el producto relacionado para editar, anotar y exportar PDF con prioridad local. Este CLI abierto es independiente y solo renderiza páginas: no es su editor, motor OCR ni aplicación de escritorio. No promete editar texto ni conservar la validez de firmas digitales.</p>",
+    "notes_label": "Notas prácticas",
+    "source_label": "Código en GitHub →",
+    "about_description": "Mantenimiento, relación con productos y tratamiento de datos en Page Image Notes."
+  }
+}
