@@ -15,6 +15,7 @@ body.workshop{--paper:#152626;--ink:#eef1dc;--accent:#efaa86;--muted:#b8c8bd;--l
 body.images{--paper:#f8f9fc;--ink:#202f5a;--accent:#164ddd;--muted:#58627c;--line:#c4cbdc;--display:'Trebuchet MS',Verdana,sans-serif;--body:Verdana,'Trebuchet MS',sans-serif;font-size:17px}body.images header{border:0}body.images .hero{margin:28px 0 60px;padding:45px;border:2px solid var(--ink);max-width:none;box-shadow:12px 12px 0 #dce4f9}body.images h1{font-weight:800;font-size:clamp(2.9rem,6vw,5.5rem);max-width:900px}body.images .rule{display:none}body.images .cards{grid-template-columns:1fr;gap:0;border-bottom:1px solid var(--line)}body.images .card{display:grid;grid-template-columns:80px 1fr 1fr;gap:25px;min-height:0;padding:30px 0;border-color:var(--line)}body.images .card h2{font-size:1.8rem;margin:0}body.images .card p{margin:0}body.images .card .read{grid-column:2}body.images .tool-panel{border:0;background:#e9eefb;grid-template-columns:1fr 1.7fr}
 body.journal{--paper:#fcf3e7;--ink:#452b24;--accent:#ad3c27;--muted:#775e54;--line:#c6ab98;--display:'Palatino Linotype',Palatino,Georgia,serif;--body:Georgia,serif}body.journal header{border-top:7px solid var(--ink);margin-top:20px}body.journal .hero{max-width:960px;margin:auto;text-align:center;padding-bottom:75px}body.journal .hero .lead{margin:auto}body.journal .hero .rule{margin:30px auto}body.journal h1{font-style:italic;font-size:clamp(3.4rem,8vw,7rem)}body.journal .cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:38px}body.journal .card h2{font-size:1.9rem}body.journal .prose{margin:auto}body.journal .tool-panel{border:0;border-top:1px solid var(--ink);padding-left:0;padding-right:0}
 @media(max-width:760px){header{align-items:flex-start;gap:1rem;flex-direction:column}.hero{padding:48px 0}.cards,body.journal .cards{grid-template-columns:1fr}.tool-panel,body.images .tool-panel{grid-template-columns:1fr}.hero .lead{font-size:1.15rem}body.workshop .hero{display:block}body.images .hero{padding:25px 20px;box-shadow:6px 6px 0 #dce4f9}body.images .card{grid-template-columns:1fr;gap:12px}body.images .card .read{grid-column:auto}.shell{padding:0 6vw}h1{overflow-wrap:anywhere}.language-choice{flex-direction:column}}@media(prefers-reduced-motion:no-preference){.hero{animation:arrive .55s ease-out}@keyframes arrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
+.breadcrumbs{max-width:780px;margin:0 0 1.5rem;font:13px/1.7 Consolas,monospace}.breadcrumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem;padding:0;margin:0}.breadcrumbs li+li::before{content:"/";margin-right:.6rem;color:var(--muted)}.byline{font:13px/1.8 Consolas,monospace;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:1.2rem}.byline span{display:block}.related{margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem}.related h2{font-size:1.35rem}.related ul{padding-left:1.2rem}body.journal .breadcrumbs,body.workshop .breadcrumbs{margin-left:auto;margin-right:auto}
 """
 
 
@@ -28,21 +29,42 @@ def build():
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
     (OUT / "CNAME").write_text(config["hostname"] + "\n", encoding="ascii")
     pages = []
+    modified_dates = {}
     esc = html.escape
 
     def url(lang, slug=""):
         return f"/{lang}/" + (slug + "/" if slug else "")
 
-    def write(lang, slug, title, description, main, root=False):
+    def write(lang, slug, title, description, main, root=False, article=None):
         path = "/" if root else url(lang, slug)
         en = "/en/" if root else url("en", slug)
         es = "/es/" if root else url("es", slug)
         current = "es" if lang == "es" else "en"
         tr = lambda a, b: b if current == "es" else a
+        maintainer = config["maintainer"]
+        author_name = maintainer["names"][current]
+        locale = "es_ES" if current == "es" else "en_US"
+        alternate_locale = "en_US" if current == "es" else "es_ES"
+        social_type = "article" if article else "website"
+        schema = ""
+        if article:
+            person_or_team = {"@type": "Organization", "name": author_name, "url": maintainer["url"]}
+            structured = {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {"@type": config.get("article_schema_type", "Article"), "@id": base + path + "#article", "url": base + path, "mainEntityOfPage": {"@type": "WebPage", "@id": base + path}, "headline": title, "description": description, "inLanguage": current, "author": person_or_team, "publisher": person_or_team, "datePublished": article["published_at"], "dateModified": article["modified_at"]},
+                    {"@type": "BreadcrumbList", "itemListElement": [
+                        {"@type": "ListItem", "position": 1, "name": tr("Home", "Inicio"), "item": base + url(current)},
+                        {"@type": "ListItem", "position": 2, "name": title, "item": base + path}
+                    ]}
+                ]
+            }
+            schema = '<script type="application/ld+json">' + json.dumps(structured, ensure_ascii=False).replace("<", "\\u003c") + '</script>'
         document = f'''<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)} · {esc(config['brand'])}</title><meta name="description" content="{esc(description, quote=True)}">
 <link rel="canonical" href="{base}{path}"><link rel="alternate" hreflang="en" href="{base}{en}"><link rel="alternate" hreflang="es" href="{base}{es}"><link rel="alternate" hreflang="x-default" href="{base}{'/' if root or not slug else url('en',slug)}">
+<meta property="og:title" content="{esc(title + ' · ' + config['brand'], quote=True)}"><meta property="og:description" content="{esc(description, quote=True)}"><meta property="og:url" content="{base}{path}"><meta property="og:type" content="{social_type}"><meta property="og:site_name" content="{esc(config['brand'], quote=True)}"><meta property="og:locale" content="{locale}"><meta property="og:locale:alternate" content="{alternate_locale}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="{esc(title + ' · ' + config['brand'], quote=True)}"><meta name="twitter:description" content="{esc(description, quote=True)}">{schema}
 <link rel="stylesheet" href="/style.css"><meta name="theme-color" content="{config['color']}"></head>
 <body class="{config['theme']}"><a class="skip" href="#main">{tr('Skip to content','Saltar al contenido')}</a><div class="shell">
 <header><a class="brand" href="/{current}/"><span class="brand-mark" aria-hidden="true">{config['mark']}</span>{esc(config['brand'])}</a><nav aria-label="{tr('Main navigation','Navegación principal')}"><a href="/{current}/">{tr('Notebook','Cuaderno')}</a><a href="/{current}/about/">{tr('About','Acerca de')}</a><a href="{github}">{tr('Source','Código')}</a><a href="{en}" lang="en" hreflang="en" {'aria-current="page"' if current == 'en' else ''}>EN</a><a href="{es}" lang="es" hreflang="es" {'aria-current="page"' if current == 'es' else ''}>ES</a></nav></header>
@@ -51,6 +73,7 @@ def build():
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(document, encoding="utf-8")
         pages.append(path)
+        modified_dates[path] = article["modified_at"] if article else config["modified_at"]
 
     for lang in ("en", "es"):
         text = config[lang]
@@ -64,8 +87,22 @@ def build():
         write(lang, "about", about_title, text["about_description"], f'<section class="hero"><span class="eyebrow">ABOUT / MAINTENANCE</span><h1>{about_title}</h1></section><article class="prose">{about}<p><a href="{github}">{github}</a> · MIT</p></article>')
         for article in content:
             item = article[lang]
-            main = f'<section class="hero"><span class="eyebrow">{esc(item["kind"])} / {esc(config["brand"])}</span><h1>{esc(item["title"])}</h1><p class="lead">{esc(item["description"])}</p></section><article class="prose">{item["body"]}<a class="back" href="/{lang}/">← {text["notes_label"]}</a></article>'
-            write(lang, article["slug"], item["title"], item["description"], main)
+            team = config["maintainer"]
+            label = "Maintained by" if lang == "en" else "Mantenimiento"
+            published_label = "Published" if lang == "en" else "Publicado"
+            modified_label = "Updated" if lang == "en" else "Actualizado"
+            byline = f'<p class="byline"><span>{label}: <a rel="author" href="{esc(team["url"], quote=True)}">{esc(team["names"][lang])}</a></span><span>{published_label}: <time class="published" datetime="{article["published_at"]}">{article["published_at"]}</time> · {modified_label}: <time class="modified" datetime="{article["modified_at"]}">{article["modified_at"]}</time></span></p>'
+            home_label = "Home" if lang == "en" else "Inicio"
+            breadcrumb_label = "Breadcrumb" if lang == "en" else "Ruta de navegación"
+            breadcrumbs = f'<nav class="breadcrumbs" aria-label="{breadcrumb_label}"><ol><li><a href="/{lang}/">{home_label}</a></li><li><span aria-current="page">{esc(item["title"])}</span></li></ol></nav>'
+            related_links = []
+            for related_slug in article.get("related_slugs", []):
+                related_article = next(entry for entry in content if entry["slug"] == related_slug)
+                related_links.append(f'<li><a href="{url(lang, related_slug)}">{esc(related_article[lang]["title"])}</a></li>')
+            related_label = "Related notes" if lang == "en" else "Lecturas relacionadas"
+            related = '<aside class="related"><h2>' + related_label + '</h2><ul>' + ''.join(related_links) + '</ul></aside>' if related_links else ""
+            main = f'<section class="hero"><span class="eyebrow">{esc(item["kind"])} / {esc(config["brand"])}</span><h1>{esc(item["title"])}</h1><p class="lead">{esc(item["description"])}</p></section>{breadcrumbs}<article class="prose">{byline}{item["body"]}{related}<a class="back" href="/{lang}/">← {text["notes_label"]}</a></article>'
+            write(lang, article["slug"], item["title"], item["description"], main, article=article)
     write("en", "", config["root_seo_title"], "Practical finance and document notes in English and Spanish. Notas de finanzas y documentos en inglés y español.", '<section class="hero"><span class="eyebrow">ENGLISH / ESPAÑOL</span><h1>'+esc(config["brand"])+'</h1><p class="lead">'+esc(config["en"]["intro"])+'</p><div class="language-choice"><a href="/en/" lang="en">Read in English →</a><a href="/es/" lang="es">Leer en español →</a></div></section>', root=True)
     entries = []
     for path in sorted(pages):
@@ -75,7 +112,7 @@ def build():
             tail = path.split("/", 2)[2]
             en, es = "/en/" + tail, "/es/" + tail
             default = "/" if not tail else en
-        entries.append('<url><loc>' + escape(base + path) + '</loc>' + ''.join(f'<xhtml:link rel="alternate" hreflang="{language}" href="{escape(base + link)}"/>' for language, link in (("en",en),("es",es),("x-default",default))) + '</url>')
+        entries.append('<url><loc>' + escape(base + path) + '</loc><lastmod>' + modified_dates[path] + '</lastmod>' + ''.join(f'<xhtml:link rel="alternate" hreflang="{language}" href="{escape(base + link)}"/>' for language, link in (("en",en),("es",es),("x-default",default))) + '</url>')
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">' + ''.join(entries) + '</urlset>\n', encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n", encoding="ascii")
     print(f"{config['repo']}: {len(pages)} HTML pages -> {OUT}")
