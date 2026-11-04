@@ -88,9 +88,9 @@ python tests/test_pdf_page_images.py
 
 The 11 test methods cover actual PDF reading/rendering, PNG/JPEG decoding, page-to-filename mapping, 144-DPI dimensions, intrinsic rotation, white background, ranges, all-pages defaults, invalid inputs, password rejection, no-overwrite behavior, and unchanged input bytes. Test files live temporarily under the repository's ignored `tmp/` directory and are removed after each test.
 
-## Maintenance and related product
+## More PDF workflows
 
-This repository is maintained under the GitHub account **faigvain-ang** by the same maintenance team as [KomoPDF](https://komopdf.com/). It is an affiliated open-source companion, not an independent third-party recommendation or a copy of KomoPDF's implementation. KomoPDF is a related PDF editing product; this repository only provides the local page-image CLI described above. Using it does not require visiting or signing up for KomoPDF.
+Use [KomoPDF](https://komopdf.com/) to edit text or add annotations before exporting a page image. This CLI handles local PNG/JPEG rendering with explicit page selection and DPI.
 
 ## License
 

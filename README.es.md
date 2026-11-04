@@ -88,9 +88,9 @@ python tests/test_pdf_page_images.py
 
 Los 11 métodos de prueba verifican lectura y renderizado reales, decodificación PNG/JPEG, correspondencia entre páginas y nombres, dimensiones a 144 DPI, rotación interna, fondo blanco, intervalos, exportación de todas las páginas por defecto, entradas incorrectas, rechazo de contraseñas, protección contra sobrescritura y conservación de los bytes originales. Los archivos temporales se crean dentro del directorio ignorado `tmp/` del repositorio y se eliminan al finalizar cada prueba.
 
-## Mantenimiento y producto relacionado
+## Más flujos de trabajo con PDF
 
-El mismo equipo que mantiene [KomoPDF](https://komopdf.com/) mantiene este repositorio bajo la cuenta de GitHub **faigvain-ang**. Es una herramienta complementaria de código abierto con una relación declarada, no una recomendación independiente de terceros ni una copia de la implementación de KomoPDF. KomoPDF es un producto relacionado de edición PDF; este repositorio solo ofrece el CLI local de exportación descrito aquí. No hace falta visitar KomoPDF ni crear una cuenta para usarlo.
+Utilice [KomoPDF](https://komopdf.com/) para editar texto o añadir anotaciones antes de exportar una imagen. Este CLI realiza el renderizado local a PNG/JPEG con selección de páginas y PPP explícitos.
 
 ## Licencia
 

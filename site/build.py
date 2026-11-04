@@ -68,7 +68,7 @@ def build():
 <link rel="stylesheet" href="/style.css"><meta name="theme-color" content="{config['color']}"></head>
 <body class="{config['theme']}"><a class="skip" href="#main">{tr('Skip to content','Saltar al contenido')}</a><div class="shell">
 <header><a class="brand" href="/{current}/"><span class="brand-mark" aria-hidden="true">{config['mark']}</span>{esc(config['brand'])}</a><nav aria-label="{tr('Main navigation','Navegación principal')}"><a href="/{current}/">{tr('Notebook','Cuaderno')}</a><a href="/{current}/about/">{tr('About','Acerca de')}</a><a href="{github}">{tr('Source','Código')}</a><a href="{en}" lang="en" hreflang="en" {'aria-current="page"' if current == 'en' else ''}>EN</a><a href="{es}" lang="es" hreflang="es" {'aria-current="page"' if current == 'es' else ''}>ES</a></nav></header>
-<main id="main">{main}</main><footer><p>{tr('Independent open-source notebook, maintained by the related-product team under faigvain-ang. Not an independent review.','Cuaderno de código abierto mantenido por el equipo de productos relacionados, bajo faigvain-ang. No es una reseña independiente.')}</p><div class="footer-links"><a href="/{current}/about/">{tr('Maintenance & relationship','Mantenimiento y relación')}</a><a href="{github}">GitHub / MIT</a><a href="/sitemap.xml">Sitemap</a></div><p>{tr('No document uploads. No tracking, account, backend, external fonts or CDN scripts.','Sin carga de documentos, seguimiento, cuentas, backend, fuentes externas ni scripts de CDN.')}</p></footer></div></body></html>'''
+<main id="main">{main}</main><footer><p>{tr('Open-source tools and practical notes. Code and examples: MIT.','Herramientas abiertas y notas prácticas. Código y ejemplos: MIT.')}</p><div class="footer-links"><a href="/{current}/about/">{tr('About','Acerca de')}</a><a href="{github}">GitHub / MIT</a><a href="/sitemap.xml">Sitemap</a></div></footer></div></body></html>'''
         destination = OUT / path.strip("/") / "index.html" if not root else OUT / "index.html"
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(document, encoding="utf-8")
@@ -82,13 +82,13 @@ def build():
         panel = f'<section class="tool-panel" aria-label="{esc(text["panel_title"])}"><div><span class="eyebrow">LOCAL / OPEN SOURCE</span><h2>{esc(text["panel_title"])}</h2><p>{text["panel_intro"]}</p><a href="{github}">{esc(text["source_label"])}</a></div><div>{text["panel_body"]}</div></section>'
         hero = f'<section class="hero"><span class="eyebrow">{esc(text["eyebrow"])}</span><h1>{esc(text["title"])}</h1><div class="rule" aria-hidden="true"></div><p class="lead">{esc(text["intro"])}</p></section>'
         write(lang, "", text["seo_title"], text["description"], hero + '<section class="cards" aria-label="'+esc(text['notes_label'])+'">' + cards + '</section>' + panel)
-        about_title = "Who maintains this notebook" if lang == "en" else "Quién mantiene este cuaderno"
-        about = text["about"] + ('<h2>How this site works</h2><p>Articles use synthetic data. This is a static educational site: commands run on your own computer, not in the browser. Runtime dependencies, if any, are installed separately as documented in the repository. No files are uploaded here, and there are no analytics, third-party fonts, CDN scripts, backend or login. The related cloud services have their own data handling.</p>' if lang == "en" else '<h2>Cómo funciona este sitio</h2><p>Los artículos usan datos sintéticos. Este sitio educativo es estático: los comandos se ejecutan en su ordenador, no en el navegador. Las dependencias, si existen, se instalan por separado según el repositorio. Aquí no se cargan archivos ni hay analítica, fuentes externas, scripts CDN, backend o cuentas. Los servicios en la nube relacionados gestionan sus datos por separado.</p>')
-        write(lang, "about", about_title, text["about_description"], f'<section class="hero"><span class="eyebrow">ABOUT / MAINTENANCE</span><h1>{about_title}</h1></section><article class="prose">{about}<p><a href="{github}">{github}</a> · MIT</p></article>')
+        about_title = ("About " if lang == "en" else "Acerca de ") + config["brand"]
+        about = text["about"]
+        write(lang, "about", about_title, text["about_description"], f'<section class="hero"><span class="eyebrow">ABOUT</span><h1>{about_title}</h1></section><article class="prose">{about}<p><a href="{github}">{github}</a> · MIT</p></article>')
         for article in content:
             item = article[lang]
             team = config["maintainer"]
-            label = "Maintained by" if lang == "en" else "Mantenimiento"
+            label = "By" if lang == "en" else "Por"
             published_label = "Published" if lang == "en" else "Publicado"
             modified_label = "Updated" if lang == "en" else "Actualizado"
             byline = f'<p class="byline"><span>{label}: <a rel="author" href="{esc(team["url"], quote=True)}">{esc(team["names"][lang])}</a></span><span>{published_label}: <time class="published" datetime="{article["published_at"]}">{article["published_at"]}</time> · {modified_label}: <time class="modified" datetime="{article["modified_at"]}">{article["modified_at"]}</time></span></p>'
